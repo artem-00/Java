@@ -19,11 +19,13 @@ public class GpsData {
         this.restTemplate = restTemplate;
     }
 
-    public Location getLocationByIp(String ip) {
-        // Формируем URL для запроса на сервис определения местоположения по IP
-        String url = apiUrl + "/" + ip;
+public Location getLocationByIp(String ip) {
+    // Безопасное построение URL с использованием UriComponentsBuilder
+    String url = UriComponentsBuilder.fromUriString(apiUrl)
+                                      .pathSegment(ip)
+                                      .toUriString();
 
-        // Отправляем запрос и получаем ответ от сервиса
-        return restTemplate.getForObject(url, Location.class);
-    }
+    // Отправляем запрос и получаем ответ от сервиса
+    return restTemplate.getForObject(url, Location.class);
+}
 }
